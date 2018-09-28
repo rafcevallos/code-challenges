@@ -1,8 +1,3 @@
-({
-    plugins: 'jsdom-quokka-plugin',
-    jsdom: { html: `<div id="test">Hello</div>` }
-})
-
 const lunch_data = [{
     student_id: 101783,
     school_id: 2,
@@ -845,61 +840,75 @@ const lunch_data = [{
     ]
 }
 ]
+
 // NOTE: For reporting purposes, we track the days a student receives a lunch. I’d like you to write a parser that gives how many students receive a lunch on a given day for a school. The parser should return a structure that gives easy access to the total number of students that received lunch that day given a school ID and a date.
 
 /*
+FUNCTION #1 - createLunchReportByDate
 Given a user inputs a date
 When a function is called
 Then the user will be shown a report of the # of lunches per school on a date
 */
 
 const createLunchReportByDate = (inputDate) => {
-
+    // Structure for the data as an object
     const lunchReport = {
         date: '',
     }
-
+    // Create the Object
     const newLunchReport = Object.create(lunchReport)
+    // Set the date as inputDate
     newLunchReport.date = inputDate
+    // Map over data by student
     lunch_data.map(student => {
+        // Get the school ids associated for each student and add to object otherwise return 0
+        newLunchReport[student.school_id] = newLunchReport[student.school_id] || 0
+        // Map scans of each student
         student.scans.map(scan => {
-            newLunchReport[student.school_id] = newLunchReport[student.school_id] || 0;
+            // inputDate set to receive Year-Month-Date format
             if (inputDate === scan.toISOString().substring(0, 10)) {
+                // Increment school id counter by 1
                 newLunchReport[student.school_id] += 1
             }
         })
     })
     console.log(newLunchReport)
 }
-
+// Call function
 createLunchReportByDate('2018-09-04')
 createLunchReportByDate('2018-10-16')
 
 
 /*
+FUNCTION #2 - createLunchReportBySchool
 Given a user inputs a school
 When a function is called
 Then the user will be shown a report of the # of lunches per date at a school
 */
+
 const createLunchReportBySchool = (inputSchool) => {
+    // Structure for the data as an object
     const lunchReport = {
         school: ''
     }
+    // Create the Object
     const newLunchReport = Object.create(lunchReport)
+    // Set the date as inputDate
     newLunchReport.school = inputSchool
-
+    // Map over data and scans by student
     lunch_data.map(student => {
         student.scans.map(scan => {
-
-            newLunchReport[scan.toISOString().substring(0, 10)] = newLunchReport[scan.toISOString().substring(0, 10)] || 0;
-
+            // Get the scans for each student and convert to string and add to object otherwise return 0
+            newLunchReport[scan.toISOString().substring(0, 10)] = newLunchReport[scan.toISOString().substring(0, 10)] || 0
+            // inputSchool is equal to the school id entered
             if (inputSchool === student.school_id) {
+                // Increment count per date by 1
                 newLunchReport[scan.toISOString().substring(0, 10)] += 1
             }
         })
     })
     console.log(newLunchReport)
 }
-
+// Call function
 createLunchReportBySchool(2)
 createLunchReportBySchool(8)
