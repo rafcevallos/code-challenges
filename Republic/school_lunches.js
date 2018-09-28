@@ -1,3 +1,9 @@
+// This makes Quokka work
+// ({
+//     plugins: 'jsdom-quokka-plugin',
+//     jsdom: { html: `<div id="test">Hello</div>` }
+// })
+
 const lunch_data = [{
     student_id: 101783,
     school_id: 2,
@@ -840,7 +846,6 @@ const lunch_data = [{
     ]
 }
 ]
-
 // NOTE: For reporting purposes, we track the days a student receives a lunch. I’d like you to write a parser that gives how many students receive a lunch on a given day for a school. The parser should return a structure that gives easy access to the total number of students that received lunch that day given a school ID and a date.
 
 /*
